@@ -24,19 +24,6 @@ func TestAccResourceRebalancingSchedule_basic(t *testing.T) {
 				),
 			},
 			{
-				// import by ID
-				ImportState:       true,
-				ResourceName:      "castai_rebalancing_schedule.test",
-				ImportStateVerify: true,
-			},
-			{
-				// import by name
-				ImportState:       true,
-				ResourceName:      "castai_rebalancing_schedule.test",
-				ImportStateId:     rName,
-				ImportStateVerify: true,
-			},
-			{
 				// test edits
 				Config: makeUpdatedRebalancingScheduleConfig(rName + " renamed"),
 				Check: resource.ComposeTestCheckFunc(
@@ -55,6 +42,21 @@ func TestAccResourceRebalancingSchedule_basic(t *testing.T) {
 					resource.TestCheckResourceAttr("castai_rebalancing_schedule.test", "name", rName+" min_nodes_zero"),
 					resource.TestCheckResourceAttr("castai_rebalancing_schedule.test", "launch_configuration.0.rebalancing_min_nodes", "0"),
 				),
+			},
+			// We keep the ImportState test cases at the end so they will test any newly added fields.
+			// This way it will also verify that after importing the state the output of `tf plan` is empty.
+			{
+				// import by ID
+				ImportState:       true,
+				ResourceName:      "castai_rebalancing_schedule.test",
+				ImportStateVerify: true,
+			},
+			{
+				// import by name
+				ImportState:       true,
+				ResourceName:      "castai_rebalancing_schedule.test",
+				ImportStateId:     rName,
+				ImportStateVerify: true,
 			},
 		},
 	})
