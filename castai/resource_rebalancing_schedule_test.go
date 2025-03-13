@@ -46,16 +46,19 @@ func TestAccResourceRebalancingSchedule_basic(t *testing.T) {
 			// We keep the ImportState test cases at the end so they will test any newly added fields.
 			// This way it will also verify that after importing the state the output of `tf plan` is empty.
 			{
-				// import by ID
+				// Import state by ID
 				ImportState:       true,
 				ResourceName:      "castai_rebalancing_schedule.test",
 				ImportStateVerify: true,
 			},
 			{
-				// import by name
-				ImportState:       true,
-				ResourceName:      "castai_rebalancing_schedule.test",
-				ImportStateId:     rName,
+				// Import state by name
+				ImportState:  true,
+				ResourceName: "castai_rebalancing_schedule.test",
+				// Make sure to use the resource (rebalancing schedule) name from the latest prior step that changes the resource,
+				// otherwise this step will not to see the changes made after the State ID you provided,
+				// and this step will fail.
+				ImportStateId:     rName + " min_nodes_zero",
 				ImportStateVerify: true,
 			},
 		},
