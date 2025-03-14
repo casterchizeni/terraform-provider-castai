@@ -143,27 +143,27 @@ module "castai-eks-cluster" {
   }
   # Autoscaling & evictor setting
   autoscaler_settings = {
-    enabled                                 = false
-    is_scoped_mode                          = false
-    node_templates_partial_matching_enabled = false
+    enabled                                 = true
+    is_scoped_mode                          = true
+    node_templates_partial_matching_enabled = true
 
     unschedulable_pods = {
-      enabled = false
+      enabled = true
     }
 
     node_downscaler = {
-      enabled = false
+      enabled = true
 
       empty_nodes = {
-        enabled = false
+        enabled = true
       }
 
       evictor = {
-        enabled                   = false
-        aggressive_mode           = false
+        enabled                   = true
+        aggressive_mode           = true
         cycle_interval            = "60s"
         node_grace_period_minutes = 10
-        scoped_mode               = false
+        scoped_mode               = true
       }
     }
 
